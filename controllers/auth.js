@@ -24,21 +24,18 @@ exports.register = async ctx => {
 exports.login = async ctx => {
   const { email, password } = ctx.request.body;
 
-  if (!email || !password) {
+  if (!email || !password)
     ctx.throw(400, "Please enter your name and password");
-  }
 
-  const user = await User.findOne({ email }).select("+password");
+  let user = await User.findOne({ email }).select("+password");
 
-  if (!user) {
-    ctx.throw(401, "Invalid credentials");
-  }
+  if (!user) ctx.throw(401, "Invalid credentials");
 
   const isMatch = await user.matchPassword(password);
 
-  if (!isMatch) {
-    ctx.throw(401, "Invalid credentials");
-  }
+  if (!isMatch) ctx.throw(401, "Invalid credentials");
+
+  user.password = undefined;
 
   sendCookieResponse(user, 200, ctx);
 };
