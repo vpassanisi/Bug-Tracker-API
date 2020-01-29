@@ -56,11 +56,14 @@ exports.getMe = async ctx => {
 
   ctx.status = 200;
   ctx.body = {
-    name,
-    email,
-    projects,
-    createdAt,
-    updatedAt
+    success: true,
+    data: {
+      name,
+      email,
+      projects,
+      createdAt,
+      updatedAt
+    }
   };
 };
 

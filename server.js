@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === "development") {
   app.use(Logger());
 }
 
-app.use(Cors());
+app.use(Cors({ credentials: true }));
 app.use(Filter());
 app.use(json());
 app.use(
