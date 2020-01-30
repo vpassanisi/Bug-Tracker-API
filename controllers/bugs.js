@@ -67,10 +67,17 @@ exports.bugsByProject = async ctx => {
 
   const bugs = await Bug.find({ project: decoded.projectId });
 
+  let fixers = [];
+  bugs.forEach(bug => fixers.push(String(bug.fixer)));
+
+  fixers = fixers.filter((item, pos) => fixers.indexOf(item) == pos);
+
+  const fixerData = await User.find({ _id: { $in: fixers } });
+
   ctx.status = 200;
   ctx.response.body = {
     success: true,
-    data: bugs
+    data: { bugs, fixerData }
   };
 };
 
