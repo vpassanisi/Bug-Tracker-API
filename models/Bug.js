@@ -8,10 +8,10 @@ const BugSchema = new mongoose.Schema(
       trim: true,
       maxlength: [100, "Name can not be longer than 100 characters"]
     },
-    user: {
-      type: mongoose.Schema.ObjectId,
-      ref: "User",
-      required: true
+    description: {
+      type: String,
+      required: [true, "Please enter a description for this bug"],
+      maxlength: [500, "Description can not be longer than 500 characters"]
     },
     project: {
       type: mongoose.Schema.ObjectId,
@@ -19,10 +19,9 @@ const BugSchema = new mongoose.Schema(
       required: true
     },
     reporter: {
-      type: String,
-      required: [true, "Please enter a reporter for this bug"],
-      trim: true,
-      maxlength: [50, "Reporter can not be longer than 50 characters"]
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      required: false
     },
     fixer: {
       type: mongoose.Schema.ObjectId,

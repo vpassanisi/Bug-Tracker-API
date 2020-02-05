@@ -59,9 +59,7 @@ exports.getProject = async ctx => {
 exports.getProjects = async ctx => {
   const decoded = jwt.verify(ctx.cookies.get("token"), process.env.JWT_SECRET);
 
-  const bugs = await Bug.find({
-    $or: [{ user: decoded.id }, { fixer: decoded.id }]
-  });
+  const bugs = await Bug.find({ fixer: decoded.id });
 
   let projectIds = [];
   bugs.forEach(bug => projectIds.push(bug.project));

@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Bug = require("../models/Bug");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
 // @desc Create new bug
 // @route POST /api/v1/bugs
@@ -13,10 +14,9 @@ exports.createBug = async ctx => {
   const fixer = await User.findOne({ email: ctx.request.body.fixer });
 
   const bugData = {
-    user: decoded.id,
     project: decoded.projectId,
     name: ctx.request.body.name,
-    reporter: ctx.request.body.reporter,
+    reporter: decoded.id,
     fixer: fixer._id,
     status: ctx.request.body.status,
     severity: ctx.request.body.severity,
@@ -46,6 +46,12 @@ exports.updateBug = async ctx => {
     ctx.throw(401, "You must be working on that bugs project to edit it");
   }
 
+  if (ctx.request.body.fixer) {
+    const fixer = await User.findOne({ email: ctx.request.body.fixer });
+
+    ctx.request.body.fixer = fixer._id;
+  }
+
   const newBug = await Bug.findByIdAndUpdate(ctx.params.id, ctx.request.body, {
     new: true,
     runValidators: true,
@@ -65,19 +71,35 @@ exports.updateBug = async ctx => {
 exports.bugsByProject = async ctx => {
   const decoded = jwt.verify(ctx.cookies.get("token"), process.env.JWT_SECRET);
 
-  const bugs = await Bug.find({ project: decoded.projectId });
+  const bugs = await Bug.find({ project: decoded.projectId })
+    .populate("reporter")
+    .populate("fixer");
 
-  let fixers = [];
-  bugs.forEach(bug => fixers.push(String(bug.fixer)));
+  // didnt know about .populate()
+  // but this is O(n)
 
-  fixers = fixers.filter((item, pos) => fixers.indexOf(item) == pos);
+  // let fixersMap = {};
+  // let fixersArr = [];
+  // bugs.forEach(bug =>
+  //   fixersMap.hasOwnProperty(bug.fixer)
+  //     ? false
+  //     : (fixersMap[bug.fixer] = bug.fixer)
+  // );
 
-  const fixerData = await User.find({ _id: { $in: fixers } });
+  // for (const prop in fixersMap) fixersArr.push(fixersMap[prop]);
+
+  // const fixerData = await User.find({ _id: { $in: fixersArr } });
+
+  // fixerData.forEach(fixer => (fixersMap[String(fixer._id)] = fixer));
+
+  // bugs.forEach(bug => (bug.fixer = fixersMap[bug.fixer]));
+
+  console.log(bugs);
 
   ctx.status = 200;
   ctx.response.body = {
     success: true,
-    data: { bugs, fixerData }
+    data: { bugs }
   };
 };
 
