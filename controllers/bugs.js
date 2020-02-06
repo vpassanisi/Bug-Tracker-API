@@ -20,7 +20,8 @@ exports.createBug = async ctx => {
     fixer: fixer._id,
     status: ctx.request.body.status,
     severity: ctx.request.body.severity,
-    reproduceability: ctx.request.body.reproduceability
+    reproduceability: ctx.request.body.reproduceability,
+    description: ctx.request.body.description
   };
 
   const bug = await Bug.create(bugData);
@@ -56,7 +57,9 @@ exports.updateBug = async ctx => {
     new: true,
     runValidators: true,
     useFindAndModify: false
-  });
+  })
+    .populate("fixer")
+    .populate("reporter");
 
   ctx.status = 200;
   ctx.response.body = {
@@ -93,8 +96,6 @@ exports.bugsByProject = async ctx => {
   // fixerData.forEach(fixer => (fixersMap[String(fixer._id)] = fixer));
 
   // bugs.forEach(bug => (bug.fixer = fixersMap[bug.fixer]));
-
-  console.log(bugs);
 
   ctx.status = 200;
   ctx.response.body = {

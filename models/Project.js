@@ -14,6 +14,10 @@ const ProjectSchema = new mongoose.Schema(
       required: [true, "Please add a description for this project"],
       trim: true,
       maxlength: [200, "Description can only contain 200 characters"]
+    },
+    bugsCount: {
+      type: Number,
+      default: 0
     }
   },
   { timestamps: true }

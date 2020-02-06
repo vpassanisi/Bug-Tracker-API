@@ -44,7 +44,11 @@ exports.createProject = async ctx => {
 exports.getProject = async ctx => {
   const decoded = jwt.verify(ctx.cookies.get("token"), process.env.JWT_SECRET);
 
-  const project = await Project.findOne({ _id: decoded.projectId });
+  let project = await Project.findOne({ _id: decoded.projectId });
+
+  const count = await Bug.countDocuments({ project: project._id });
+
+  project.bugsCount = count;
 
   ctx.status = 200;
   ctx.body = {
@@ -64,7 +68,12 @@ exports.getProjects = async ctx => {
   let projectIds = [];
   bugs.forEach(bug => projectIds.push(bug.project));
 
-  const projects = await Project.find({ _id: { $in: projectIds } });
+  let projects = await Project.find({ _id: { $in: projectIds } });
+
+  for (let i = 0; i < projects.length; i++) {
+    const count = await Bug.countDocuments({ project: projects[i]._id });
+    projects[i].bugsCount = count;
+  }
 
   ctx.status = 200;
   ctx.body = {
@@ -126,7 +135,7 @@ exports.updateProject = async ctx => {
 };
 
 // @desc Delete project
-// @route Get /api/v1/projects
+// @route DELETE /api/v1/projects
 // @access Private
 exports.deleteProject = async ctx => {
   const decoded = jwt.verify(ctx.cookies.get("token"), process.env.JWT_SECRET);
