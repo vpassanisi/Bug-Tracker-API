@@ -161,7 +161,7 @@ const sendCookieResponse = (user, statusCode, ctx) => {
   ctx.body = {
     success: true,
     data: {
-      data,
+      user,
       protocol,
       secure
     }
