@@ -69,8 +69,20 @@ exports.getMe = async ctx => {
 // @route GET /api/v1/auth/logout
 // @access Private
 exports.logout = async ctx => {
+  let options = {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+    sameSite: "none"
+  };
+
+  if (process.env.NODE_ENV === "production") {
+    options.secure = true;
+  }
+
   ctx.cookies.set("token", "none", {
-    expires: new Date(Date.now() + 10 * 1000)
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+    sameSite: "none"
   });
 
   ctx.status = 200;

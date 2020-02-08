@@ -109,7 +109,6 @@ exports.bugsByProject = async ctx => {
 // @access Private
 exports.deleteBug = async ctx => {
   const decoded = jwt.verify(ctx.cookies.get("token"), process.env.JWT_SECRET);
-  console.log("fire");
 
   const isDeleted = await Bug.deleteOne({
     $and: [{ project: decoded.projectId }, { _id: ctx.params.id }]
