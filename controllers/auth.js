@@ -155,8 +155,15 @@ const sendCookieResponse = (user, statusCode, ctx) => {
 
   ctx.cookies.set("token", token, options);
 
+  let protocol = ctx.protocol;
+  let secure = ctx.secure;
+
   ctx.body = {
     success: true,
-    data: user
+    data: {
+      data,
+      protocol,
+      secure
+    }
   };
 };

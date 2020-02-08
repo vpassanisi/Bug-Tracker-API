@@ -21,6 +21,8 @@ connectDB();
 const app = new Koa();
 const router = new Router();
 
+app.proxy = true;
+
 app.use(errorHandler());
 
 app.on("error", (err, ctx) => {
