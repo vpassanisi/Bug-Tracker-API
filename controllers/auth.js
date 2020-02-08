@@ -144,7 +144,8 @@ const sendCookieResponse = (user, statusCode, ctx) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true
+    httpOnly: true,
+    sameSite: "none"
   };
 
   if (process.env.NODE_ENV === "production") {
@@ -155,15 +156,8 @@ const sendCookieResponse = (user, statusCode, ctx) => {
 
   ctx.cookies.set("token", token, options);
 
-  let protocol = ctx.protocol;
-  let secure = ctx.secure;
-
   ctx.body = {
     success: true,
-    data: {
-      user,
-      protocol,
-      secure
-    }
+    data: user
   };
 };
