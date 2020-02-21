@@ -13,6 +13,8 @@ exports.createBug = async ctx => {
 
   const fixer = await User.findOne({ email: ctx.request.body.fixer });
 
+  if (!fixer) ctx.throw(404, "Please add any users email")
+
   const bugData = {
     project: decoded.projectId,
     name: ctx.request.body.name,
@@ -24,7 +26,12 @@ exports.createBug = async ctx => {
     description: ctx.request.body.description
   };
 
-  const bug = await Bug.create(bugData);
+  let bug = await Bug.create(bugData);
+
+  bug = await bug
+    .populate("fixer")
+    .populate("reporter")
+    .execPopulate();
 
   ctx.status = 200;
   ctx.response.body = {
@@ -77,25 +84,6 @@ exports.bugsByProject = async ctx => {
   const bugs = await Bug.find({ project: decoded.projectId })
     .populate("reporter")
     .populate("fixer");
-
-  // didnt know about .populate()
-  // but this is O(n)
-
-  // let fixersMap = {};
-  // let fixersArr = [];
-  // bugs.forEach(bug =>
-  //   fixersMap.hasOwnProperty(bug.fixer)
-  //     ? false
-  //     : (fixersMap[bug.fixer] = bug.fixer)
-  // );
-
-  // for (const prop in fixersMap) fixersArr.push(fixersMap[prop]);
-
-  // const fixerData = await User.find({ _id: { $in: fixersArr } });
-
-  // fixerData.forEach(fixer => (fixersMap[String(fixer._id)] = fixer));
-
-  // bugs.forEach(bug => (bug.fixer = fixersMap[bug.fixer]));
 
   ctx.status = 200;
   ctx.response.body = {

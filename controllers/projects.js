@@ -119,9 +119,16 @@ exports.setProject = async ctx => {
 exports.updateProject = async ctx => {
   const decoded = jwt.verify(ctx.cookies.get("token"), process.env.JWT_SECRET);
 
+  console.log(ctx.request.body)
+
+  const updated = {
+    name: ctx.request.body.name,
+    description: ctx.request.body.description
+  }
+
   const project = await Project.findByIdAndUpdate(
-    decoded.projectId,
-    ctx.request.body,
+    ctx.request.body._id,
+    updated,
     {
       new: true,
       runValidators: true,
