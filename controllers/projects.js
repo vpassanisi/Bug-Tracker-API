@@ -14,8 +14,6 @@ exports.createProject = async ctx => {
 
   const project = await Project.create(ctx.request.body);
 
-  console.log(project);
-
   const newToken = user.getSignedJwtToken(project._id);
 
   const options = {
@@ -117,10 +115,6 @@ exports.setProject = async ctx => {
 // @route PUT /api/v1/projects
 // @access Private
 exports.updateProject = async ctx => {
-  const decoded = jwt.verify(ctx.cookies.get("token"), process.env.JWT_SECRET);
-
-  console.log(ctx.request.body)
-
   const updated = {
     name: ctx.request.body.name,
     description: ctx.request.body.description
@@ -135,6 +129,10 @@ exports.updateProject = async ctx => {
       useFindAndModify: false
     }
   );
+
+  const count = await Bug.countDocuments({ project: ctx.request.body._id });
+
+  project.bugsCount = count;
 
   ctx.status = 200;
   ctx.response.body = {
