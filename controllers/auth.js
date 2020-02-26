@@ -75,8 +75,8 @@ exports.getMe = async ctx => {
 exports.logout = async ctx => {
   let options = {
     expires: new Date(Date.now() + 10 * 1000),
-    httpOnly: true
-    // sameSite: "none"
+    httpOnly: true,
+    sameSite: "Lax"
   };
 
   if (ctx.request.headers["user-agent"].includes("Windows")) {
@@ -162,7 +162,8 @@ const sendCookieResponse = (user, statusCode, ctx) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true
+    httpOnly: true,
+    sameSite: "Lax"
   };
 
   if (ctx.request.headers["user-agent"].includes("Windows")) {
