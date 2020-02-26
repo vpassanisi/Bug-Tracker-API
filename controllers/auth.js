@@ -152,13 +152,16 @@ exports.updatePassword = async ctx => {
 const sendCookieResponse = (user, statusCode, ctx) => {
   const token = user.getSignedJwtToken();
 
-  const options = {
+  let options = {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true,
-    sameSite: "none"
+    httpOnly: true
   };
+
+  if (ctx.request.headers["user-agent"].includes("Windows")) {
+    options.sameSite = "none";
+  }
 
   if (process.env.NODE_ENV === "production") {
     options.secure = true;
