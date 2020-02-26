@@ -46,6 +46,10 @@ exports.login = async ctx => {
 exports.getMe = async ctx => {
   const token = ctx.cookies.get("token");
 
+  if (token === "none" || token === undefined) {
+    ctx.throw(401, "You are not logged in");
+  }
+
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
   const user = await User.findById(decoded.id);
