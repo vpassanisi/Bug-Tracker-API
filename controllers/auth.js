@@ -69,17 +69,11 @@ exports.getMe = async ctx => {
 // @route GET /api/v1/auth/logout
 // @access Private
 exports.logout = async ctx => {
-  // let options = {
-  //   expires: new Date(Date.now() + 10 * 1000),
-  //   httpOnly: true,
-  //   sameSite: "none"
-  // };
-
-  ctx.cookies.set("token", "none", {
+  let options = {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true
     // sameSite: "none"
-  });
+  };
 
   if (ctx.request.headers["user-agent"].includes("Windows")) {
     options.sameSite = "none";
@@ -88,6 +82,8 @@ exports.logout = async ctx => {
   if (process.env.NODE_ENV === "production") {
     options.secure = true;
   }
+
+  ctx.cookies.set("token", "none", options);
 
   ctx.status = 200;
   ctx.body = {
