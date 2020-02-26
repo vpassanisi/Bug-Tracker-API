@@ -16,13 +16,17 @@ exports.createProject = async ctx => {
 
   const newToken = user.getSignedJwtToken(project._id);
 
-  const options = {
+  let options = {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true,
-    sameSite: "none"
+    httpOnly: true
+    // sameSite: "none"
   };
+
+  if (ctx.request.headers["user-agent"].includes("Windows")) {
+    options.sameSite = "none";
+  }
 
   if (process.env.NODE_ENV === "production") {
     options.secure = true;
@@ -95,9 +99,13 @@ exports.setProject = async ctx => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true,
-    sameSite: "none"
+    httpOnly: true
+    // sameSite: "none"
   };
+
+  if (ctx.request.headers["user-agent"].includes("Windows")) {
+    options.sameSite = "none";
+  }
 
   if (process.env.NODE_ENV === "production") {
     options.secure = true;
@@ -118,7 +126,7 @@ exports.updateProject = async ctx => {
   const updated = {
     name: ctx.request.body.name,
     description: ctx.request.body.description
-  }
+  };
 
   const project = await Project.findByIdAndUpdate(
     ctx.request.body._id,
