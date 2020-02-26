@@ -64,6 +64,7 @@ exports.getProject = async ctx => {
 // @route Get /api/v1/projects/getProjects
 // @access Private
 exports.getProjects = async ctx => {
+  ctx.throw(404, "getProject hit");
   const decoded = jwt.verify(ctx.cookies.get("token"), process.env.JWT_SECRET);
 
   const bugs = await Bug.find({ fixer: decoded.id });
