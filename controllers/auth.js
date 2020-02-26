@@ -159,9 +159,9 @@ const sendCookieResponse = (user, statusCode, ctx) => {
     httpOnly: true
   };
 
-  if (ctx.request.headers["user-agent"].includes("Windows")) {
-    options.sameSite = "none";
-  }
+  // if (ctx.request.headers["user-agent"].includes("Windows")) {
+  //   options.sameSite = "none";
+  // }
 
   if (process.env.NODE_ENV === "production") {
     options.secure = true;
