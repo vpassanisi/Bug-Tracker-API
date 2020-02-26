@@ -6,9 +6,11 @@ const User = require("../models/User");
 let opts = {};
 ExtractJwt.cookieExtractor = function(ctx) {
   let token = null;
+  console.log("1");
   if (ctx && ctx.cookies.get("token")) {
     token = ctx.cookies.get("token");
   }
+  console.log("2");
   return token;
 };
 opts.jwtFromRequest = ExtractJwt.cookieExtractor;
