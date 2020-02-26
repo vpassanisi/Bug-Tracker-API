@@ -9,6 +9,8 @@ function errorHandler() {
         error: err.message || "Service Error"
       };
 
+      console.log(err);
+
       if (err.name === "CastError") {
         const message = `Resource not found with id of ${err.value}`;
         ctx.status = 404;
