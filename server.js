@@ -28,7 +28,7 @@ const router = new Router();
 app.proxy = true;
 
 if (process.env.NODE_ENV === "production") {
-  app.use(sslify({ resolver }));
+  app.use(sslify({ resolver: xForwardedProtoResolver }));
 }
 
 app.use(errorHandler());
