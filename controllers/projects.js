@@ -20,8 +20,7 @@ exports.createProject = async ctx => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true,
-    sameSite: "Lax"
+    httpOnly: true
   };
 
   if (ctx.request.headers["user-agent"].includes("Windows")) {
@@ -99,8 +98,7 @@ exports.setProject = async ctx => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true,
-    sameSite: "Lax"
+    httpOnly: true
   };
 
   if (ctx.request.headers["user-agent"].includes("Windows")) {
