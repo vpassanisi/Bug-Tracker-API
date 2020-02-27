@@ -20,12 +20,13 @@ exports.createProject = async ctx => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true
+    httpOnly: true,
+    sameSite: "none"
   };
 
-  if (ctx.request.headers["user-agent"].includes("Windows")) {
-    options.sameSite = "none";
-  }
+  // if (ctx.request.headers["user-agent"].includes("Windows")) {
+  //   options.sameSite = "none";
+  // }
 
   if (process.env.NODE_ENV === "production") {
     options.secure = true;
@@ -98,12 +99,13 @@ exports.setProject = async ctx => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true
+    httpOnly: true,
+    sameSite: "none"
   };
 
-  if (ctx.request.headers["user-agent"].includes("Windows")) {
-    options.sameSite = "none";
-  }
+  // if (ctx.request.headers["user-agent"].includes("Windows")) {
+  //   options.sameSite = "none";
+  // }
 
   if (process.env.NODE_ENV === "production") {
     options.secure = true;
