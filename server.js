@@ -15,7 +15,7 @@ const serve = require("koa-static-server");
 const RateLimit = require("koa2-ratelimit").RateLimit;
 const {
   default: sslify, // middleware factory
-  resolver: xForwardedProtoResolver // resolver needed
+  xForwardedProtoResolver: resolver // resolver needed
 } = require("koa-sslify");
 
 dotenv.config({ path: "./config/.env" });
@@ -27,9 +27,9 @@ const router = new Router();
 
 app.proxy = true;
 
-// if (process.env.NODE_ENV === "production") {
-app.use(sslify({ resolver: xForwardedProtoResolver }));
-// }
+if (process.env.NODE_ENV === "production") {
+  app.use(sslify({ resolver }));
+}
 
 app.use(errorHandler());
 
