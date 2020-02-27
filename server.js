@@ -13,6 +13,7 @@ const passport = require("koa-passport");
 const errorHandler = require("./middleware/errorHandler");
 const serve = require("koa-static-server");
 const RateLimit = require("koa2-ratelimit").RateLimit;
+const sslify = require("koa-sslify");
 
 dotenv.config({ path: "./config/.env" });
 
@@ -22,6 +23,10 @@ const app = new Koa();
 const router = new Router();
 
 app.proxy = true;
+
+if (process.env.NODE_ENV === "production") {
+  app.use(sslify({ resolver: xForwardedProtoResolver }));
+}
 
 app.use(errorHandler());
 
@@ -65,7 +70,7 @@ app.use(respond());
 // API routes
 require("./routes")(router);
 app.use(router.routes());
-app.use(serve({ rootDir: "./public" }));
+app.use(serve({ rootDir: "./client/public" }));
 app.use(router.allowedMethods());
 
 module.exports = app;

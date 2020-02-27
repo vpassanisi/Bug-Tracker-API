@@ -133,7 +133,7 @@ fabric.properties
 # *.ipr
 
 ### CanChain Extras ###
-docs
+
 
 /build
 .ebignore
