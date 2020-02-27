@@ -20,7 +20,7 @@
   "main": "index.js",
   "scripts": {
     "devServer": "nodemon index.js",
-    "startServer": "node index.js",
+    "start": "node index.js",
     "dev": "concurrently \"npm run devServer\" \"npm run dev --prefix client\""
   },
   "dependencies": {
