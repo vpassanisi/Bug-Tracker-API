@@ -7,7 +7,7 @@
 <nav>
   <div class="nav-wrapper cyan darken-4">
     <div class="container">
-      <a href="#!" class="brand-logo left">Aquilaa</a>
+      <a href="#!" class="brand-logo left">Aquila</a>
       <a
         href={null}
         data-target="mobile-demo"
