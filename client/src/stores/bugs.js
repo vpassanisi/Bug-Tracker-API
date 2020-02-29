@@ -1,16 +1,14 @@
 import { writable } from "svelte/store";
+import { baseUrl } from "./_baseUrl.js";
 
 function bugsFunc() {
   const { subscribe, set, update } = writable(null);
 
   async function loadBugs() {
-    const req = await fetch(
-      "https://bug-tracker-api.herokuapp.com/api/v1/bugs/project",
-      {
-        method: "GET",
-        credentials: "include"
-      }
-    );
+    const req = await fetch(`${baseUrl}/api/v1/bugs/project`, {
+      method: "GET",
+      credentials: "include"
+    });
 
     const res = await req.json();
 
@@ -20,15 +18,12 @@ function bugsFunc() {
   }
 
   async function newBug(body) {
-    const req = await fetch(
-      "https://bug-tracker-api.herokuapp.com/api/v1/bugs",
-      {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-      }
-    );
+    const req = await fetch(`${baseUrl}/api/v1/bugs`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    });
 
     const res = await req.json();
 
@@ -45,13 +40,10 @@ function bugsFunc() {
   }
 
   async function deleteBug(id, i) {
-    const req = await fetch(
-      `https://bug-tracker-api.herokuapp.com/api/v1/bugs/${id}`,
-      {
-        method: "DELETE",
-        credentials: "include"
-      }
-    );
+    const req = await fetch(`${baseUrl}/api/v1/bugs/${id}`, {
+      method: "DELETE",
+      credentials: "include"
+    });
 
     const res = await req.json();
 
@@ -67,15 +59,12 @@ function bugsFunc() {
   }
 
   async function editBug(editBody, id, i) {
-    const req = await fetch(
-      `https://bug-tracker-api.herokuapp.com/api/v1/bugs/${id}`,
-      {
-        method: "PUT",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editBody)
-      }
-    );
+    const req = await fetch(`${baseUrl}/api/v1/bugs/${id}`, {
+      method: "PUT",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(editBody)
+    });
 
     const res = await req.json();
 

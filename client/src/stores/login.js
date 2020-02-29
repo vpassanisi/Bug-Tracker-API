@@ -1,19 +1,16 @@
 import { writable } from "svelte/store";
 import { push } from "svelte-spa-router";
 import { bugs } from "./bugs";
+import { baseUrl } from "./_baseUrl.js";
 
 function account() {
   const { subscribe, set, update } = writable(false);
 
   async function getMe() {
-    // try {
-    const req = await fetch(
-      "https://bug-tracker-api.herokuapp.com/api/v1/auth/me",
-      {
-        method: "GET",
-        credentials: "include"
-      }
-    );
+    const req = await fetch(`${baseUrl}/api/v1/auth/me`, {
+      method: "GET",
+      credentials: "include"
+    });
 
     const res = await req.json();
 
@@ -25,23 +22,16 @@ function account() {
       push("/login");
       set(false);
     }
-    // } catch (err) {
-    //   set(false);
-    //   push("/login");
-    // }
   }
 
   async function login(body) {
     try {
-      const req = await fetch(
-        "https://bug-tracker-api.herokuapp.com/api/v1/auth/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify(body)
-        }
-      );
+      const req = await fetch(`${baseUrl}/api/v1/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(body)
+      });
 
       const res = await req.json();
 
@@ -58,13 +48,10 @@ function account() {
 
   async function logout() {
     try {
-      const req = await fetch(
-        "https://bug-tracker-api.herokuapp.com/api/v1/auth/logout",
-        {
-          method: "GET",
-          credentials: "include"
-        }
-      );
+      const req = await fetch(`${baseUrl}/api/v1/auth/logout`, {
+        method: "GET",
+        credentials: "include"
+      });
 
       const res = await req.json();
 
@@ -82,15 +69,12 @@ function account() {
 
   async function createUser(userBody) {
     try {
-      const req = await fetch(
-        "https://bug-tracker-api.herokuapp.com/api/v1/auth/register",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(userBody)
-        }
-      );
+      const req = await fetch(`${baseUrl}/api/v1/auth/register`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userBody)
+      });
 
       const res = await req.json();
 
