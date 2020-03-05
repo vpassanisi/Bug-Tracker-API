@@ -1,1 +1,1 @@
-export const baseUrl = "https://bug-tracker-api.herokuapp.com/";
+export const baseUrl = "https://bug-tracker-api.herokuapp.com";
