@@ -76,20 +76,16 @@ function projectsFunc() {
   }
 
   async function newProject(newProjectBody) {
-    try {
-      const req = await fetch(`${baseUrl}/api/v1/projects`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newProjectBody)
-      });
+    const req = await fetch(`${baseUrl}/api/v1/projects`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newProjectBody)
+    });
 
-      const res = await req.json();
+    const res = await req.json();
 
-      return res;
-    } catch (err) {
-      M.toast({ html: `${err}`, classes: "red" });
-    }
+    return res;
   }
 
   async function editProject(project, index) {

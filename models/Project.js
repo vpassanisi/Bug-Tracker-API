@@ -15,6 +15,11 @@ const ProjectSchema = new mongoose.Schema(
       trim: true,
       maxlength: [200, "Description can only contain 200 characters"]
     },
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      required: true
+    },
     bugsCount: {
       type: Number,
       default: 0

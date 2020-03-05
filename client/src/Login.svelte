@@ -19,36 +19,40 @@
   }
 </style>
 
-<h3 class="center cyan-text text-darken-4" style="font-weight: 300;">Login</h3>
-<div style="margin: 0 auto; max-width: 600px;">
-  <div class="card" style="margin: 0 1rem;">
-    <div class="card-content">
-      <div class="row">
-        <div class="input-field col s10 offset-s1">
-          <input
-            id="email"
-            class="validate"
-            type="email"
-            bind:value={body.email} />
-          <label for="email">Email</label>
+<h3 class="center cyan-text text-darken-4 font-hairline">Login</h3>
+<div class="mx-auto my-0 w-max-600">
+  <div class="card my-0 mx-1">
+    <form action="submit">
+      <div class="card-content">
+        <div class="row">
+          <div class="input-field col s10 offset-s1">
+            <input
+              id="email"
+              class="validate"
+              type="email"
+              bind:value={body.email} />
+            <label for="email">Email</label>
+          </div>
+          <div class="input-field col s10 offset-s1">
+            <input
+              id="password"
+              class="validate"
+              type="text"
+              bind:value={body.password} />
+            <label for="password">Password</label>
+          </div>
         </div>
-        <div class="input-field col s10 offset-s1">
-          <input
-            id="password"
-            class="validate"
-            type="text"
-            bind:value={body.password} />
-          <label for="password">Password</label>
-        </div>
-      </div>
 
-      <div class="row">
-        <button
-          class="blue-grey btn col s10 offset-s1 btn-large waves-effect"
-          on:click|preventDefault={login.login(body)}>
-          Login
-        </button>
+        <div class="row">
+          <button
+            class="blue-grey btn col s10 offset-s1 btn-large waves-effect"
+            type="submit"
+            on:click|preventDefault={login.login(body)}>
+            Login
+          </button>
+        </div>
       </div>
-    </div>
+    </form>
+
   </div>
 </div>

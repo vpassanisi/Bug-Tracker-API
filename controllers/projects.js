@@ -12,6 +12,8 @@ exports.createProject = async ctx => {
 
   const user = await User.findById(decoded.id);
 
+  ctx.request.body.user = decoded.id;
+
   const project = await Project.create(ctx.request.body);
 
   const newToken = user.getSignedJwtToken(project._id);
@@ -23,10 +25,6 @@ exports.createProject = async ctx => {
     httpOnly: true,
     sameSite: "none"
   };
-
-  // if (ctx.request.headers["user-agent"].includes("Windows")) {
-  //   options.sameSite = "none";
-  // }
 
   if (process.env.NODE_ENV === "production") {
     options.secure = true;
@@ -67,9 +65,11 @@ exports.getProjects = async ctx => {
   const decoded = jwt.verify(ctx.cookies.get("token"), process.env.JWT_SECRET);
 
   const bugs = await Bug.find({ fixer: decoded.id });
+  const usersProjects = await Project.find({ user: decoded.id });
 
   let projectIds = [];
   bugs.forEach(bug => projectIds.push(bug.project));
+  usersProjects.forEach(project => projectIds.push(project._id));
 
   let projects = await Project.find({ _id: { $in: projectIds } });
 

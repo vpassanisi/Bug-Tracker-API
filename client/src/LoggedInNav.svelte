@@ -41,14 +41,10 @@
 
     if (res.success) {
       push("/bugs");
+    } else if (res.error === "Duplicate field value entered") {
+      M.toast({ html: `That Project already exists`, classes: "red" });
     }
   };
-
-  afterUpdate(() => {
-    if ($bugs !== null && $bugs.length === 0) {
-      modalInstances[0].open();
-    }
-  });
 
   const projects = () => {
     push("/projects");
