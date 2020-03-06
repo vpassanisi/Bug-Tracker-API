@@ -16,12 +16,17 @@ function errorHandler() {
         ctx.status = 404;
         ctx.body = {
           success: false,
-          error: message
+          error: [message]
         };
       }
 
       if (err.code === 11000) {
-        const message = "Duplicate field value entered";
+        const message = [];
+
+        for (const property in err.keyValue) {
+          message.push(`That ${property} already exists`);
+        }
+
         ctx.status = 400;
         ctx.body = {
           success: false,
@@ -30,6 +35,15 @@ function errorHandler() {
       }
 
       if (err.name === "ValidateError") {
+        const message = Object.values(err.errors).map(val => val.message);
+        ctx.status = 400;
+        ctx.body = {
+          success: false,
+          error: message
+        };
+      }
+
+      if (err.name === "ValidationError") {
         const message = Object.values(err.errors).map(val => val.message);
         ctx.status = 400;
         ctx.body = {

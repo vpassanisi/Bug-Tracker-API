@@ -25,24 +25,20 @@ function account() {
   }
 
   async function login(body) {
-    try {
-      const req = await fetch(`${baseUrl}/api/v1/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(body)
-      });
+    const req = await fetch(`${baseUrl}/api/v1/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(body)
+    });
 
-      const res = await req.json();
+    const res = await req.json();
 
-      if (res.success) {
-        set(true);
-        push("/projects");
-      } else {
-        M.toast({ html: `${res.error}`, classes: "red" });
-      }
-    } catch (err) {
-      console.log(err);
+    if (res.success) {
+      set(true);
+      push("/projects");
+    } else if (!res.success) {
+      M.toast({ html: `${res.error}`, classes: "red" });
     }
   }
 
@@ -68,22 +64,20 @@ function account() {
   }
 
   async function createUser(userBody) {
-    try {
-      const req = await fetch(`${baseUrl}/api/v1/auth/register`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userBody)
-      });
+    const req = await fetch(`${baseUrl}/api/v1/auth/register`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userBody)
+    });
 
-      const res = await req.json();
+    const res = await req.json();
 
-      if (res.success) {
-        set(true);
-        push("/projects");
-      }
-    } catch (err) {
-      console.log(err);
+    if (res.success) {
+      set(true);
+      push("/projects");
+    } else if (!res.success) {
+      res.error.forEach(err => M.toast({ html: `${err}`, classes: "red" }));
     }
   }
 

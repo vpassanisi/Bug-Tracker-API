@@ -41,8 +41,8 @@
 
     if (res.success) {
       push("/bugs");
-    } else if (res.error === "Duplicate field value entered") {
-      M.toast({ html: `That Project already exists`, classes: "red" });
+    } else if (!res.success) {
+      res.error.forEach(err => M.toast({ html: `${err}`, classes: "red" }));
     }
   };
 

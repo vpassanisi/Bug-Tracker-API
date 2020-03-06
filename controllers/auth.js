@@ -25,7 +25,7 @@ exports.login = async ctx => {
   const { email, password } = ctx.request.body;
 
   if (!email || !password)
-    ctx.throw(400, "Please enter your name and password");
+    ctx.throw(400, "Please enter your email and password");
 
   let user = await User.findOne({ email }).select("+password");
 
