@@ -1,6 +1,6 @@
 <script>
   import { onMount, afterUpdate } from "svelte";
-  import { push, location } from "svelte-spa-router";
+  import { push, location, link } from "svelte-spa-router";
   import { login } from "./stores/login";
   import { bugs } from "./stores/bugs.js";
   import { projectsData } from "./stores/projectsData.js";
@@ -77,7 +77,8 @@
       style="width: 5rem;"
       class="dropdown-trigger center"
       data-target="dropdown1"
-      href={null}>
+      href={null}
+      on:click={() => push($location)}>
       Add
     </a>
   </li>
