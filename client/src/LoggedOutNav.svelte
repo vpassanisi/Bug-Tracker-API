@@ -34,7 +34,7 @@
     <a href={null} on:click|preventDefault={createUserPage}>join</a>
   </li>
   <li>
-    <a href="/info" use:link>info</a>
+    <a href="/" use:link>info</a>
   </li>
 </ul>
 
@@ -52,7 +52,7 @@
   </li>
   <hr />
   <li>
-    <a href="#!">info</a>
+    <a on:click={() => sideNavInstance[0].close()} href="/" use:link>info</a>
   </li>
   <hr />
 </ul>

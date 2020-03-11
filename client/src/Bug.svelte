@@ -67,9 +67,8 @@
 
 <li>
   <div
-    class="row valign-wrapper"
-    style="padding: 1rem; border-bottom: 1px solid #ddd; margin: 0; background:
-    white;">
+    class="row valign-wrapper p-4"
+    style="border-bottom: 1px solid #ddd; margin: 0; background: white;">
     <div class="col s2 center">{bug.name}</div>
     <div class="col s2 center">{bug.reporter.name}</div>
     <div class="col s2 center">{bug.fixer.name}</div>

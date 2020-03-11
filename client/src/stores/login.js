@@ -18,8 +18,6 @@ function account() {
       set(true);
       push("/projects");
     } else {
-      M.toast({ html: `${res.error}`, classes: "red" });
-      push("/login");
       set(false);
     }
   }

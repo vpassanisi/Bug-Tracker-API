@@ -11,12 +11,11 @@
   import { onMount } from "svelte";
 
   const routes = {
-    "/": Login,
+    "/": Info,
     "/createUser": CreateUser,
     "/projects": Projects,
     "/bugs": BugsWorkspace,
-    "/info": Info,
-    "*": Login
+    "/login": Login
   };
 
   onMount(async () => login.getMe());
